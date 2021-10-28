@@ -1,12 +1,13 @@
 package Panel.Error;
 
 import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.Collection.ErrorTypeCollection;
 import Panel.AbstractPanel;
 
 public abstract class AbstractErrorPanel extends AbstractPanel {
-    protected DataTypeCollectionInterface types;
-
-    public void setTypes (DataTypeCollectionInterface types) {
+    protected ErrorTypeCollection types;
+//
+    public void setTypes (ErrorTypeCollection types) {
         this.types = types;
     }
 

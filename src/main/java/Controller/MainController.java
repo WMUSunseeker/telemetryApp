@@ -14,6 +14,7 @@ import App.Profile.ProfileInterface;
 import App.Profile.Writer.*;
 import Data.Source.TwentyOneCarDataSource;
 import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.Collection.ErrorTypeCollection;
 import Data.Type.DataTypeInterface;
 import Frame.EditProfile.*;
 import Frame.Error.AbstractErrorFrame;
@@ -95,7 +96,7 @@ public class MainController implements ActionListener, MainMenuObserverInterface
      * The data types being used
      */
     protected DataTypeCollectionInterface dataTypes;
-    protected DataTypeCollectionInterface errorTypes;
+    protected ErrorTypeCollection errorTypes;
 
     /*
      * Timer used to update the various panes

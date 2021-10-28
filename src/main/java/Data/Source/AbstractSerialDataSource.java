@@ -55,7 +55,6 @@ public abstract class AbstractSerialDataSource extends AbstractDataSource {
         client = getClient();
 
         mappings = new HashMap<String, DataTypeInterface[]>();
-        System.out.println("ABSTRACT SERIAL DATA SOURCE CREATED");
 
         registerDataTypes();
     }

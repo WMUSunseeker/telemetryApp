@@ -10,8 +10,7 @@ package Data.Source;
 import Data.Processor.DataProcessorInterface;
 import Data.Processor.GenericDataProcessor;
 import Data.Processor.Observer.DataProcessorObserverInterface;
-import Data.Type.Collection.DataTypeCollection;
-import Data.Type.Collection.DataTypeCollectionInterface;
+import Data.Type.Collection.ErrorTypeCollection;
 import Data.Type.DataTypeInterface;
 import Data.Type.ErrorType;
 import Serial.Connection.ModemConnection;
@@ -20,7 +19,7 @@ import Serial.Listener.ListenerInterface;
 import Serial.SerialClient;
 
 public class TwentyOneCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
-    protected DataTypeCollectionInterface errorTypes;
+    protected ErrorTypeCollection errorTypes;
 
     final protected String MC1BUS = "MC1BUS";
     final protected String MC1VEL = "MC1VEL";
@@ -65,7 +64,7 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
     }
 
     protected void registerDataTypes () {
-        errorTypes = new DataTypeCollection();
+        errorTypes = new ErrorTypeCollection();
 
         registerDataMapping(
                 MC1BUS,
@@ -241,15 +240,16 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
     }
 
     private DataTypeInterface registerErrorType(String name, String unit){
-        DataTypeInterface type = new ErrorType(name, unit);
-        System.out.println("type = " + type);
-        System.out.println("name = " + name);
-        System.out.println("errorTypes = " + errorTypes);
+        ErrorType type = new ErrorType(name, unit);
+        if (name.equals("MC1 Errors")){
+            ErrorType.addMotorErrors(type);
+            ErrorType.addMotorLimits(type);
+        }
         errorTypes.put(name, type);
         return type;
     }
 
-    public DataTypeCollectionInterface getErrorTypes() {
+    public ErrorTypeCollection getErrorTypes() {
         return errorTypes;
     }
 }

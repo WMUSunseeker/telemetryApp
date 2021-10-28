@@ -10,7 +10,7 @@ public abstract class AbstractErrorFrame extends AbstractFrame {
     /*
      * Frame dimensions
      */
-    final public static int FRAME_WIDTH  = 400;
+    final public static int FRAME_WIDTH  = 500;
     final public static int FRAME_HEIGHT = 400;
 
     public abstract void useErrorPanel(AbstractErrorPanel panel);
