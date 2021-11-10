@@ -7,23 +7,29 @@
 
 package Menu.Main;
 
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import Frame.Error.AbstractErrorFrame;
 
-import java.awt.event.ActionListener;
+import javax.swing.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class MainMenu extends AbstractMainMenu {
     /*
      * Menu labels
      */
     final protected String MENU_PROFILE = "Profile";
+    final protected String MENU_ERROR = "Errors & Lims";
 
     /*
      * Menu option labels
      */
     final protected String LABEL_SAVE_PROFILE = "Save Profile";
     final protected String LABEL_EDIT_PROFILE = "Edit Profile";
+//    final protected String LABEL_LOAD_PROFILE = "Load Profile";
+
+    final protected String LABEL_ERROR_FRAME = "Open Error Panel";
+
+    protected AbstractErrorFrame errorFrame;
 
     public MainMenu () {
         addProfileMenu();
@@ -56,9 +62,27 @@ public class MainMenu extends AbstractMainMenu {
             }
         });
 
+        JMenu errorMenu = new JMenu(MENU_ERROR);
+
+        JMenuItem openErrors = new JMenuItem(LABEL_ERROR_FRAME);
+        errorMenu.add(openErrors);
+
+        openErrors.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                if (MainMenu.this.errorFrame != null) {
+                    MainMenu.this.errorFrame.setVisible(true);
+                }
+            }
+        });
+
         /*
          * Add the menu to the bar
          */
         add(menu);
+        add(errorMenu);
+    }
+
+    public void addErrorFrame(AbstractErrorFrame errorFrame) {
+        this.errorFrame = errorFrame;
     }
 }

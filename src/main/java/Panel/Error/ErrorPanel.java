@@ -112,7 +112,13 @@ public class ErrorPanel extends AbstractErrorPanel {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column){
                 Component c = super.getTableCellRendererComponent(table,value,isSelected,hasFocus,row,column);
-                c.setBackground(value.equals(0.0) ? Color.RED : Color.GREEN);
+//                c.setBackground(value.equals(0.0) ? Color.RED : Color.GREEN);
+                if(value.equals(0.0) || value.equals(0)){
+                    c.setBackground(Color.GREEN);
+                }
+                else if (value.equals(1.0) || value.equals(1)){
+                    c.setBackground(Color.RED);
+                }
                 return c;
             }
         });
@@ -159,7 +165,6 @@ public class ErrorPanel extends AbstractErrorPanel {
             if (type.isEnabled()) {
                 Collection<SingleError> lims = type.getLimits().values();
                 for (SingleError lim : lims) {
-                    System.out.println(lim);
                     limModel.addRow(new Object[] {
                             lim.getName(),
                             lim.getValue()

@@ -9,12 +9,12 @@ package Panel.LiveData;
 
 import Data.Type.DataTypeInterface;
 
-import java.awt.*;
-import java.util.*;
-import java.util.List;
 import javax.swing.*;
-import javax.swing.table.*;
 import javax.swing.border.TitledBorder;
+import javax.swing.table.*;
+import java.awt.*;
+import java.util.List;
+import java.util.*;
 
 
 public class LiveDataPanel extends AbstractLiveDataPanel {

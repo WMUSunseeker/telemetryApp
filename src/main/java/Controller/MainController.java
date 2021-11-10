@@ -112,6 +112,7 @@ public class MainController implements ActionListener, MainMenuObserverInterface
 
         errorFrame = new ErrorFrame();
         errorData = new ErrorPanel();
+        menu.addErrorFrame(errorFrame);
 
         saveProfile = new SaveProfileFrame(profile);
         saveProfile.addObserver(this);
@@ -187,8 +188,11 @@ public class MainController implements ActionListener, MainMenuObserverInterface
 
         int index = 0;
 
-        for (DataTypeInterface type : dataTypes.values())
-            lines[index++] = new LinePanel(type, graph);
+        for (DataTypeInterface type : dataTypes.values()) {
+            LinePanel pan = new LinePanel(type, graph);
+            pan.setToolTipText(type.getName());
+            lines[index++] = pan;
+        }
 
         frame.useLinePanels(lines);
     }

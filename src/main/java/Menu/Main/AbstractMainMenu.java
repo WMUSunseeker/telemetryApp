@@ -7,11 +7,12 @@
 
 package Menu.Main;
 
+import Frame.Error.AbstractErrorFrame;
 import Menu.AbstractMenu;
 import Menu.Main.Observer.MainMenuObserverInterface;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractMainMenu extends AbstractMenu {
     protected List<MainMenuObserverInterface> observers;
@@ -33,4 +34,6 @@ public abstract class AbstractMainMenu extends AbstractMenu {
         for (MainMenuObserverInterface observer : observers)
             observer.doEditProfile();
     }
+
+    public abstract void addErrorFrame(AbstractErrorFrame errorFrame);
 }

@@ -34,7 +34,7 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
     final protected String MC1CUM = "MC1CUM";
     final protected String MC1SLS = "MC1SLS";
 
-    final protected String MC1ERR = "MC1ERR";
+    final protected String MC1ERR = "MC1LIM";
 
     final protected String DC_DRV = "DC_DRV";
     final protected String DC_POW = "DC_POW";
@@ -75,7 +75,7 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
         registerDataMapping(
                 MC1VEL,
                 registerDataType("MC 1 Velocity", "m/s"),
-                registerDataType("MC 1 Velocity", "rpm")
+                registerDataType("MC 1 rotation Velocity", "rpm")
         );
 
         registerDataMapping(

@@ -111,19 +111,44 @@ public class ErrorType implements DataTypeInterface {
     }
 
     public void putValue(double value){
+//        System.out.println("value = " + value);
+//        String result = Long.toBinaryString( (int)value & 0xffffffffL | 0x100000000L ).substring(1);
+//        Integer[] bits = new Integer[32];
+//        for (int i = 0; i < result.length(); i++) {
+//            bits[i] = Integer.parseInt(Character.toString(result.charAt(i)));
+//        }
+//        for (int bit : bits) {
+//            System.out.print(bit);
+//        }
+//        System.out.println();
+//
+//        for (int i = 0; i < 7; i++) {
+//            limits.get(i).putValue(bits[i]);
+//        }
+//        for (int i = 16; i < 23; i++) {
+//            errors.get(i).putValue(bits[i]);
+//        }
 
-        String result = Long.toBinaryString( (int)value & 0xffffffffL | 0x100000000L ).substring(1);
+    }
+
+    // value: 32 bit string
+    public void putValue(String value){
+        // put each bit from the string 'value' into an array of ints
         Integer[] bits = new Integer[32];
-        for (int i = 0; i < result.length(); i++) {
-            bits[i] = Integer.parseInt(Character.toString(result.charAt(i)));
+        for (int i = 0; i < value.length(); i++) {
+            bits[i] = Integer.parseInt(Character.toString(value.charAt(i)));
         }
 
-        for (int i = 0; i < 7; i++) {
-            limits.get(i).putValue(bits[i]);
+        // put the bits into the error and limit maps
+        if(!limits.isEmpty()) {
+            for (int i = 0; i < 7; i++) { // put the first 7 bits into the limits map
+                limits.get(i).putValue(bits[31-i]);
+            }
+            for (int r = 16; r < 23; r++) { // put the next 6 bits into the errors map
+                errors.get(r).putValue(bits[31-r]);
+            }
         }
-        for (int i = 16; i < 23; i++) {
-            errors.get(i).putValue(bits[i]);
-        }
+
     }
 
     @Override
@@ -174,6 +199,7 @@ public class ErrorType implements DataTypeInterface {
     }
 
     public static void addMotorLimits(ErrorType container){
+//        System.out.println("adding motor limits!");
         container.addLimit(new SingleError("IPM Temperature or Motor Temperature"), 6);
         container.addLimit(new SingleError("Bus Voltage Lower Limit"), 5);
         container.addLimit(new SingleError("Bus Voltage Upper Limit"), 4);

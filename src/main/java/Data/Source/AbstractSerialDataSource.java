@@ -7,13 +7,14 @@
 
 package Data.Source;
 
-import java.nio.ByteBuffer;
-import java.util.Map;
-import java.util.HashMap;
-
 import Data.Type.DataTypeInterface;
+import Data.Type.ErrorType;
 import Serial.SerialClient;
 import gnu.io.CommPortIdentifier;
+
+import java.nio.ByteBuffer;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class AbstractSerialDataSource extends AbstractDataSource {
     /*
@@ -82,11 +83,43 @@ public abstract class AbstractSerialDataSource extends AbstractDataSource {
         // ByteBuffer allows us to convert array of bytes into a number. Likely 4 bytes in the array, to create a float
         ByteBuffer highBuff = ByteBuffer.wrap(high);
         ByteBuffer lowBuff = ByteBuffer.wrap(low);
+        if(field.equals("MC1LIM")){
+            String lowBitString = "";
+            for (byte b : low) {
+                lowBitString += Integer.toBinaryString((b & 0xFF) + 0x100).substring(1);
+            }
 
-//        if (field.equals("MC1ERR")){
-//            // Do stuff to decode bytes into bits, and figure out which flags are set.
-//
-//        }
+            String hiBitString = "";
+            for (byte b : high) {
+                hiBitString += Integer.toBinaryString((b & 0xFF) + 0x100).substring(1);
+            }
+
+            if (mappings.containsKey(field)) {
+                // Gets pointer to key: value pair in mappings hashMap
+                DataTypeInterface[] types = mappings.get(field);
+
+                ErrorType errorType0;
+                ErrorType errorType1;
+                try{
+                    errorType0 = (ErrorType) types[0];
+                    errorType1 = (ErrorType) types[1];
+                }
+                catch (ClassCastException e){
+                    System.out.println("Class cast exception");
+                    return;
+                }
+
+                if (errorType0 != null) {
+//                    errorType0.putValue(hiBitString);
+                }
+
+                if (errorType1 != null) {
+                    errorType1.putValue(lowBitString);
+                }
+            }
+            return;
+        }
+
 
         receiveValue(
             field,
