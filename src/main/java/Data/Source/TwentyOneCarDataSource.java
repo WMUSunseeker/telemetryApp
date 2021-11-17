@@ -68,38 +68,38 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
 
         registerDataMapping(
                 MC1BUS,
-                registerDataType("MC 1 Bus Current", "Amps"),
-                registerDataType("MC 1 Bus Voltage", "Volts")
+                registerDataType("MC Bus Current", "Amps"),
+                registerDataType("MC Bus Voltage", "Volts")
         );
 
         registerDataMapping(
                 MC1VEL,
-                registerDataType("MC 1 Velocity", "m/s"),
-                registerDataType("MC 1 rotation Velocity", "rpm")
+                registerDataType("MC Velocity", "m/s"),
+                registerDataType("MC rotation Velocity", "rpm")
         );
 
         registerDataMapping(
                 MC1PHA,
-                registerDataType("MC 1 Phase C", "Amps"),
-                registerDataType("MC 1 Phase B", "Amps")
+                registerDataType("MC Phase C", "Amps"),
+                registerDataType("MC Phase B", "Amps")
         );
 
         registerDataMapping(
                 MC1VVC,
-                registerDataType("MC 1 Vector Vd", "Volts"),
-                registerDataType("MC 1 Vector Vq", "Volts")
+                registerDataType("MC Vector Vd", "Volts"),
+                registerDataType("MC Vector Vq", "Volts")
         );
 
         registerDataMapping(
                 MC1IVC,
-                registerDataType("MC 1 Vector Id", "Amps"),
-                registerDataType("MC 1 Vector Iq", "Amps")
+                registerDataType("MC Vector Id", "Amps"),
+                registerDataType("MC Vector Iq", "Amps")
         );
 
         registerDataMapping(
                 MC1BEM,
-                registerDataType("MC 1 Vector BEMFd", "Volts"),
-                registerDataType("MC 1 Vector BEMFq", "Volts")
+                registerDataType("MC Vector BEMFd", "Volts"),
+                registerDataType("MC Vector BEMFq", "Volts")
         );
 
         registerDataMapping(
@@ -116,25 +116,25 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
 
         registerDataMapping(
                 MC1TP1,
-                registerDataType("MC 1 Heatsink Temp", "deg C"),
-                registerDataType("MC 1 Motor Temp", " deg C")
+                registerDataType("MC Heatsink Temp", "deg C"),
+                registerDataType("MC Motor Temp", " deg C")
         );
 
         registerDataMapping(
                 MC1TP2,
                 RESERVED,
-                registerDataType("MC 1 Processor Temp", "deg C")
+                registerDataType("MC Processor Temp", "deg C")
         );
 
         registerDataMapping(
                 MC1CUM,
-                registerDataType("MC 1 Bus Amp. Hrs.", "Ah"),
-                registerDataType("MC 1 Odometer", "m")
+                registerDataType("MC Bus Amp. Hrs.", "Ah"),
+                registerDataType("MC Odometer", "m")
         );
 
         registerDataMapping(
                 MC1SLS,
-                registerDataType("MC 1 Slip Speed", "Hz"),
+                registerDataType("MC Slip Speed", "Hz"),
                 RESERVED
         );
 
@@ -142,8 +142,8 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
         // ******************************
         registerDataMapping(
                 MC1ERR,
-                registerErrorType("MC1 Error Counts", "none"),
-                registerErrorType("MC1 Errors", "boolean")
+                registerErrorType("MC Error Counts", "none"),
+                registerErrorType("MC Errors", "boolean")
         );
 
 
@@ -185,21 +185,22 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
 
         registerDataMapping(
                 AC_MP1,
-                registerDataType("MP 1 Avg. Voltage", "Volts"),
-                registerDataType("MP 1 Avg. Current", "Amps")
+                registerDataType("MPPT 1 Avg. Voltage", "Volts"),
+                registerDataType("MPPT 1 Avg. Current", "Amps")
         );
 
         registerDataMapping(
                 AC_MP2,
-                registerDataType("MP 2 Avg. Voltage", "Volts"),
-                registerDataType("MP 2 Avg. Current", "Amps")
+                registerDataType("MPPT 2 Avg. Voltage", "Volts"),
+                registerDataType("MPPT 2 Avg. Current", "Amps")
         );
 
-        registerDataMapping(
-                AC_MP3,
-                registerDataType("MP 3 Avg. Voltage", "Volts"),
-                registerDataType("MP 3 Avg. Current", "Amps")
-        );
+        // 2021 car no longer has 3 MPPTs.
+//        registerDataMapping(
+//                AC_MP3,
+//                registerDataType("MP 3 Avg. Voltage", "Volts"),
+//                registerDataType("MP 3 Avg. Current", "Amps")
+//        );
 
         registerDataMapping(
                 AC_ISH,
@@ -241,7 +242,7 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
 
     private DataTypeInterface registerErrorType(String name, String unit){
         ErrorType type = new ErrorType(name, unit);
-        if (name.equals("MC1 Errors")){
+        if (name.equals("MC Errors")){
             ErrorType.addMotorErrors(type);
             ErrorType.addMotorLimits(type);
         }
