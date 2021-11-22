@@ -57,6 +57,7 @@ public abstract class AbstractSerialDataSource extends AbstractDataSource {
 
         mappings = new HashMap<String, DataTypeInterface[]>();
 
+
         registerDataTypes();
     }
 

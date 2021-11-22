@@ -22,4 +22,8 @@ public interface ProfileInterface {
     public File getFile();
 
     public boolean hasChanged();
+
+    public boolean getAutoSave();
+
+    public String getFileName();
 }

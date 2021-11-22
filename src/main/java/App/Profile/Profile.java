@@ -19,9 +19,16 @@ public class Profile implements ProfileInterface {
 
     protected boolean changed = false;
 
-    public Profile (DataSourceInterface dataSource, boolean fromFile) {
+    protected boolean autoSave = true;
+
+    public Profile(DataSourceInterface dataSource, boolean fromFile, boolean autoSave) {
         this.dataSource = dataSource;
         changed         = !fromFile;
+        this.autoSave = autoSave;
+    }
+
+    public Profile (DataSourceInterface dataSource, boolean fromFile) {
+        this(dataSource, fromFile, true);
     }
 
     public Profile (DataSourceInterface dataSource) {
@@ -33,7 +40,6 @@ public class Profile implements ProfileInterface {
     }
 
     public void updateDataType (DataTypeInterface dataType) {
-//        System.out.println("DATA TYPE UPDATED!");
         changed = true;
     }
 
@@ -47,5 +53,13 @@ public class Profile implements ProfileInterface {
 
     public boolean hasChanged () {
         return changed;
+    }
+
+    public boolean getAutoSave () {
+        return autoSave;
+    }
+
+    public String getFileName () {
+        return "/Users/grant/Desktop/data.csv";
     }
 }

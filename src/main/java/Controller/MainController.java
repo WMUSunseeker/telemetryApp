@@ -11,32 +11,35 @@
 package Controller;
 
 import App.Profile.ProfileInterface;
-import App.Profile.Writer.*;
+import App.Profile.Writer.ProfileWriter;
+import App.Profile.Writer.ProfileWriterInterface;
 import Data.Source.TwentyOneCarDataSource;
 import Data.Type.Collection.DataTypeCollectionInterface;
 import Data.Type.Collection.ErrorTypeCollection;
 import Data.Type.DataTypeInterface;
-import Frame.EditProfile.*;
+import Frame.EditProfile.AbstractEditProfileFrame;
+import Frame.EditProfile.EditProfileFrame;
 import Frame.Error.AbstractErrorFrame;
 import Frame.Error.ErrorFrame;
-import Frame.Main.*;
+import Frame.Main.AbstractMainFrame;
+import Frame.Main.MainFrame;
 import Frame.SaveProfile.SaveProfileFrame;
-import Menu.Main.*;
+import Menu.Main.AbstractMainMenu;
+import Menu.Main.MainMenu;
 import Menu.Main.Observer.MainMenuObserverInterface;
 import Panel.Error.AbstractErrorPanel;
 import Panel.Error.ErrorPanel;
-import Panel.Graph.*;
-import Panel.Line.*;
-import Panel.LiveData.*;
+import Panel.Graph.AbstractGraphPanel;
+import Panel.Graph.GraphPanel;
+import Panel.Line.AbstractLinePanel;
+import Panel.Line.LinePanel;
+import Panel.LiveData.AbstractLiveDataPanel;
+import Panel.LiveData.LiveDataPanel;
 
-import javax.swing.Timer;
-import javax.swing.JOptionPane;
-
-import java.awt.event.ActionListener;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
-
-import java.awt.FileDialog;
-
+import java.awt.event.ActionListener;
 import java.io.File;
 
 public class MainController implements ActionListener, MainMenuObserverInterface {
@@ -132,9 +135,12 @@ public class MainController implements ActionListener, MainMenuObserverInterface
         this.profile = profile;
         saveProfile.setProfile(profile);
 
+
         dataTypes = profile.getDataSource().getTypes();
         if(profile.getDataSource() instanceof TwentyOneCarDataSource) {
-            errorTypes = ((TwentyOneCarDataSource) profile.getDataSource()).getErrorTypes();
+            TwentyOneCarDataSource dataSource = (TwentyOneCarDataSource) profile.getDataSource();
+            errorTypes = dataSource.getErrorTypes();
+            dataSource.setProfile(profile);
         }
 
         // Draws to screen the data from source, with line graphs

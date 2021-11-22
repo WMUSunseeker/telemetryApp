@@ -8,20 +8,16 @@
 package App.Profile.Loader.GUI;
 
 import App.Profile.Loader.GUI.Observer.ProfileLoaderGUIObserverInterface;
-import App.Profile.Profile;
 import Data.Source.Collection.DataSourceCollectionInterface;
 import Data.Source.DataSourceInterface;
 
 import javax.swing.*;
-
 import java.awt.*;
-import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-
-import java.util.List;
-import java.util.ArrayList;
-
+import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ProfileLoaderGUI extends JFrame implements ActionListener {
     final protected int FRAME_WIDTH  = 300;
@@ -70,6 +66,8 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
     final protected String BUTTON_CONTINUE  = "Continue";
     final protected String BUTTON_QUIT      = "Quit";
 
+    final protected String CHECKBOX_AUTO_SAVE = "Auto Save";
+
     /*
      * Errors
      */
@@ -87,6 +85,7 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
      */
     protected File loadProfileFrom;
     protected DataSourceInterface createProfileUsing;
+    protected boolean autoSave;
 
     /*
      * Frame components
@@ -135,6 +134,8 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
          * Add the options to load a profile
          */
         addLoadAndCreateOptions();
+
+        addAutoSaveCheckbox();
 
         /*
          * Add the options to create a profile
@@ -226,6 +227,7 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
             public void actionPerformed (ActionEvent e) {
                 String choice = (String) chooseDataSource.getSelectedItem();
 
+                // If user didn't change the choice from default, do nothing
                 createProfileUsing = !choice.equals(OPTION_DEFAULT_DATA_SOURCE)
                     ? dataSources.get(choice)
                     : null;
@@ -233,6 +235,16 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
         });
 
         card.add(chooseDataSource);
+
+//        JCheckBox autoSaveBox = new JCheckBox(CHECKBOX_AUTO_SAVE);
+//
+//        autoSaveBox.addActionListener(new ActionListener() {
+//            public void actionPerformed (ActionEvent e) {
+//                autoSave = autoSaveBox.isSelected();
+//            }
+//        });
+//
+//        card.add(autoSaveBox);
 
         optionsPanel.add(card, CHOICE_CREATE);
     }
@@ -265,7 +277,7 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
 
                     case CHOICE_CREATE:
                         if (createProfileUsing != null) {
-                            observer.createNew(createProfileUsing);
+                            observer.createNew(createProfileUsing, autoSave);
                         } else {
                             error = ERROR_CHOOSE_A_SOURCE;
                         }
@@ -283,7 +295,7 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
             }
         });
 
-        add(button);
+        add(button, BorderLayout.SOUTH);
     }
 
     protected void addQuitButton () {
@@ -298,7 +310,19 @@ public class ProfileLoaderGUI extends JFrame implements ActionListener {
             }
         });
 
-        add(button);
+        add(button, BorderLayout.SOUTH);
+    }
+
+    protected void addAutoSaveCheckbox() {
+        JCheckBox autoSaveBox = new JCheckBox(CHECKBOX_AUTO_SAVE);
+
+        autoSaveBox.addActionListener(new ActionListener() {
+            public void actionPerformed (ActionEvent e) {
+                autoSave = autoSaveBox.isSelected();
+            }
+        });
+
+        add(autoSaveBox);
     }
 
     protected void resetFrame () {

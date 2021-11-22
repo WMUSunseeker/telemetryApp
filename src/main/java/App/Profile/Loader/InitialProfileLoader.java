@@ -48,8 +48,8 @@ public class InitialProfileLoader extends FileProfileLoader implements ProfileLo
         }
     }
 
-    public void createNew (DataSourceInterface dataSource) {
-        observer.receiveProfile(new Profile(dataSource, true));
+    public void createNew (DataSourceInterface dataSource, boolean autoSave) {
+        observer.receiveProfile(new Profile(dataSource, true, autoSave));
     }
 
     public void canceled () {

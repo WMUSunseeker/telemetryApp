@@ -9,12 +9,8 @@ package Controller;
 
 import App.Profile.ProfileInterface;
 import Data.Source.*;
-import Frame.SaveProfile.AbstractSaveProfileFrame;
-import Frame.SaveProfile.SaveProfileFrame;
 
-import java.awt.*;
-import java.lang.Thread;
-import java.util.concurrent.TimeUnit;
+import java.io.IOException;
 
 // This handles when the user closes the application, run() method will be run when the user closes the application.
 public class ShutdownController extends Thread {
@@ -33,6 +29,13 @@ public class ShutdownController extends Thread {
 
         // Disconnects from serial port and stops the collection of data.
         if (dataSource instanceof AbstractSerialDataSource) {
+            if (dataSource instanceof TwentyOneCarDataSource){
+                try {
+                    ((TwentyOneCarDataSource) dataSource).getWriter().close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             dataSource.stop();
         }
     }

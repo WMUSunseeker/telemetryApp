@@ -14,7 +14,7 @@ import java.io.File;
 public interface ProfileLoaderGUIObserverInterface {
     public void loadSaved(File file);
 
-    public void createNew(DataSourceInterface dataSource);
+    public void createNew(DataSourceInterface dataSource, boolean autoSave);
 
     public void canceled();
 }

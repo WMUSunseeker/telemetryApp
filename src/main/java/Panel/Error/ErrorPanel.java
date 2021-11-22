@@ -165,6 +165,9 @@ public class ErrorPanel extends AbstractErrorPanel {
             if (type.isEnabled()) {
                 Collection<SingleError> lims = type.getLimits().values();
                 for (SingleError lim : lims) {
+                    if (lim.getValue() == 0) {
+                        lim.resetTrip();
+                    }
                     limModel.addRow(new Object[] {
                             lim.getName(),
                             lim.getValue()

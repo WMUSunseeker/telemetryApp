@@ -7,12 +7,13 @@
 
 package Controller;
 
-import Data.Source.Collection.*;
+import App.Profile.ProfileInterface;
 import Data.Source.*;
+import Data.Source.Collection.DataSourceCollection;
+import Data.Source.Collection.DataSourceCollectionInterface;
 import Serial.SerialHelper;
 
-import java.lang.Thread;
-import javax.swing.JOptionPane;
+import javax.swing.*;
 
 // This class handles asking the user which serial port they want to use and connecting to that port
 public class DataController {
@@ -24,6 +25,7 @@ public class DataController {
 
     public DataController () {
         dataSources = new DataSourceCollection();
+
 
         /*
          * Register the known data source types
@@ -44,7 +46,7 @@ public class DataController {
          * If the data source requires a serial connection,
          * lets get it one
          * We do this by first checking if source needs a serial connection (source instanceof AbstactSerial...)
-         * Then based on how && is run, the promptForSerialPort only runs if the first part is true.
+         * Then because && 'short circuits', the promptForSerialPort only runs if the first part is true.
          * promptForSerialPort returns true if everything went well, and thus we won't return false from this if.
          */
         if (source instanceof AbstractSerialDataSource && !promptForSerialPort(source)) {

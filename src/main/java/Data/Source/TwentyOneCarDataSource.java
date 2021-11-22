@@ -7,6 +7,7 @@
 
 package Data.Source;
 
+import App.Profile.ProfileInterface;
 import Data.Processor.DataProcessorInterface;
 import Data.Processor.GenericDataProcessor;
 import Data.Processor.Observer.DataProcessorObserverInterface;
@@ -18,9 +19,12 @@ import Serial.Listener.GenericListener;
 import Serial.Listener.ListenerInterface;
 import Serial.SerialClient;
 
-public class TwentyOneCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
-    protected ErrorTypeCollection errorTypes;
+import java.io.FileWriter;
+import java.io.IOException;
 
+public class TwentyOneCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
+
+    // MOTOR CONTROLLER HEADERS
     final protected String MC1BUS = "MC1BUS";
     final protected String MC1VEL = "MC1VEL";
     final protected String MC1PHA = "MC1PHA";
@@ -33,34 +37,49 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
     final protected String MC1TP2 = "MC1TP2";
     final protected String MC1CUM = "MC1CUM";
     final protected String MC1SLS = "MC1SLS";
+    final protected String MC1LIM = "MC1LIM";
 
-    final protected String MC1ERR = "MC1LIM";
-
+    // DRIVER CONTROLLER HEADERS
     final protected String DC_DRV = "DC_DRV";
     final protected String DC_POW = "DC_POW";
     final protected String DC_SWC = "DC_SWC";
 
+    // BATTERY PROTECTION SYSTEM HEADERS
     final protected String BP_VMX = "BP_VMX";
     final protected String BP_VMN = "BP_VMN";
     final protected String BP_TMX = "BP_TMX";
     final protected String BP_ISH = "BP_ISH";
 
+    // ARRAY CONTROLLER HEADERS
     final protected String AC_MP1 = "AC_MP1";
     final protected String AC_MP2 = "AC_MP2";
-    final protected String AC_MP3 = "AC_MP3";
+//    final protected String AC_MP3 = "AC_MP3"; // Only 2 MPPTs on current car.
     final protected String AC_ISH = "AC_ISH";
     final protected String AC_TMX = "AC_TMX";
     final protected String AC_TV1 = "AC_TV1";
     final protected String AC_TV2 = "AC_TV2";
 
-//    public TwentyOneCarDataSource(){
-//        super();
-//        System.out.println("CREATED TWENTY ONE CAR DATA SOURCE");
-//        errorTypes = new DataTypeCollection();
+    final protected int NUM_DATA_POINTS = 14;
+
+    protected ErrorTypeCollection errorTypes;
+
+    protected ProfileInterface profile;
+    protected FileWriter writer;
+    protected int numWrittenOnLine = 0;
+
+//    public TwentyOneCarDataSource(ProfileInterface profile){
+//        Profile
 //    }
 
     public String getName () {
         return "2021 Sunseeker Solar Car";
+    }
+
+    public void setProfile(ProfileInterface profile) {
+        this.profile = profile;
+    }
+    public FileWriter getWriter() {
+        return writer;
     }
 
     protected void registerDataTypes () {
@@ -141,7 +160,7 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
 
         // ******************************
         registerDataMapping(
-                MC1ERR,
+                MC1LIM,
                 registerErrorType("MC Error Counts", "none"),
                 registerErrorType("MC Errors", "boolean")
         );
@@ -248,6 +267,26 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
         }
         errorTypes.put(name, type);
         return type;
+    }
+
+    protected void receiveValue(String field, double high, double low) {
+        super.receiveValue(field, high, low);
+        if (mappings.containsKey(field) && profile != null && profile.getAutoSave()) {
+            DataTypeInterface[] types = mappings.get(field);
+            numWrittenOnLine++;
+            try {
+                if (writer == null) {
+                    writer = new FileWriter(profile.getFileName(), true);
+                }
+                writer.write(Double.toString(high) + "," + Double.toString(low) + ",");
+
+                if (numWrittenOnLine % NUM_DATA_POINTS == 0) {
+                    writer.write("\n");
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public ErrorTypeCollection getErrorTypes() {
