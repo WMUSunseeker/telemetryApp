@@ -7,14 +7,13 @@
 
 package Data.Source;
 
-import Data.Processor.*;
+import Data.Processor.DataProcessorInterface;
+import Data.Processor.GenericDataProcessor;
 import Data.Processor.Observer.DataProcessorObserverInterface;
 import Serial.Connection.ModemConnection;
-import Serial.Listener.*;
+import Serial.Listener.GenericListener;
+import Serial.Listener.ListenerInterface;
 import Serial.SerialClient;
-
-import javax.swing.JFrame;
-import java.nio.ByteBuffer;
 
 // Does not implement receiveValue method from DataProcessorObserverInterface... doesn't break because of
 // the same named method in superclass AbstractSerialDataSource
@@ -65,236 +64,236 @@ public class SixteenCarDataSource extends AbstractSerialDataSource implements Da
     final protected String AC_TV1 = "AC_TV1";
     final protected String AC_TV2 = "AC_TV2";
 
-    public String getName () {
+    public String getName() {
         return "2016 Sunseeker Solar Car";
     }
 
-    protected void registerDataTypes () {
+    protected void registerDataTypes() {
         registerDataMapping(
-            MC1BUS,
-            registerDataType("MC 1 Bus Current", "Amps"),
-            registerDataType("MC 1 Bus Voltage", "Volts")
+                MC1BUS,
+                registerDataType("MC 1 Bus Current", "Amps"),
+                registerDataType("MC 1 Bus Voltage", "Volts")
         );
 
         registerDataMapping(
-            MC1VEL,
-            registerDataType("MC 1 Velocity", "m/s"),
-            registerDataType("MC 1 Velocity", "rpm")
+                MC1VEL,
+                registerDataType("MC 1 Velocity", "m/s"),
+                registerDataType("MC 1 Velocity", "rpm")
         );
 
         registerDataMapping(
-            MC1PHA,
-            registerDataType("MC 1 Phase C", "Amps"),
-            registerDataType("MC 1 Phase B", "Amps")
+                MC1PHA,
+                registerDataType("MC 1 Phase C", "Amps"),
+                registerDataType("MC 1 Phase B", "Amps")
         );
 
         registerDataMapping(
-            MC1VVC,
-            registerDataType("MC 1 Vector Vd", "Volts"),
-            registerDataType("MC 1 Vector Vq", "Volts")
+                MC1VVC,
+                registerDataType("MC 1 Vector Vd", "Volts"),
+                registerDataType("MC 1 Vector Vq", "Volts")
         );
 
         registerDataMapping(
-            MC1IVC,
-            registerDataType("MC 1 Vector Id", "Amps"),
-            registerDataType("MC 1 Vector Iq", "Amps")
+                MC1IVC,
+                registerDataType("MC 1 Vector Id", "Amps"),
+                registerDataType("MC 1 Vector Iq", "Amps")
         );
 
         registerDataMapping(
-            MC1BEM,
-            registerDataType("MC 1 Vector BEMFd", "Volts"),
-            registerDataType("MC 1 Vector BEMFq", "Volts")
+                MC1BEM,
+                registerDataType("MC 1 Vector BEMFd", "Volts"),
+                registerDataType("MC 1 Vector BEMFq", "Volts")
         );
 
         registerDataMapping(
-            MC1RL1,
-            null,
-            null
+                MC1RL1,
+                null,
+                null
         );
 
         registerDataMapping(
-            MC1RL2,
-            null,
-            null
+                MC1RL2,
+                null,
+                null
         );
 
         registerDataMapping(
-            MC1TP1,
-            registerDataType("MC 1 Heatsink Temp", "deg C"),
-            registerDataType("MC 1 Motor Temp", " deg C")
+                MC1TP1,
+                registerDataType("MC 1 Heatsink Temp", "deg C"),
+                registerDataType("MC 1 Motor Temp", " deg C")
         );
 
         registerDataMapping(
-            MC1TP2,
-            RESERVED,
-            registerDataType("MC 1 Processor Temp", "deg C")
+                MC1TP2,
+                RESERVED,
+                registerDataType("MC 1 Processor Temp", "deg C")
         );
 
         registerDataMapping(
-            MC1CUM,
-            registerDataType("MC 1 Bus Amp. Hrs.", "Ah"),
-            registerDataType("MC 1 Odometer", "m")
+                MC1CUM,
+                registerDataType("MC 1 Bus Amp. Hrs.", "Ah"),
+                registerDataType("MC 1 Odometer", "m")
         );
 
         registerDataMapping(
-            MC1SLS,
-            registerDataType("MC 1 Slip Speed", "Hz"),
-            RESERVED
+                MC1SLS,
+                registerDataType("MC 1 Slip Speed", "Hz"),
+                RESERVED
         );
 
         registerDataMapping(
-            MC2BUS,
-            registerDataType("MC 2 Bus Current", "Amps"),
-            registerDataType("MC 2 Bus Voltage", "Volts")
+                MC2BUS,
+                registerDataType("MC 2 Bus Current", "Amps"),
+                registerDataType("MC 2 Bus Voltage", "Volts")
         );
 
         registerDataMapping(
-            MC2VEL,
-            registerDataType("MC 2 Velocity", "m/s"),
-            registerDataType("MC 2 Velocity", "rpm")
+                MC2VEL,
+                registerDataType("MC 2 Velocity", "m/s"),
+                registerDataType("MC 2 Velocity", "rpm")
         );
 
         registerDataMapping(
-            MC2PHA,
-            registerDataType("MC 2 Phase C", "Amps"),
-            registerDataType("MC 2 Phase B", "Amps")
+                MC2PHA,
+                registerDataType("MC 2 Phase C", "Amps"),
+                registerDataType("MC 2 Phase B", "Amps")
         );
 
         registerDataMapping(
-            MC2VVC,
-            registerDataType("MC 2 Vector Vd", "Volts"),
-            registerDataType("MC 2 Vector Vq", "Volts")
+                MC2VVC,
+                registerDataType("MC 2 Vector Vd", "Volts"),
+                registerDataType("MC 2 Vector Vq", "Volts")
         );
 
         registerDataMapping(
-            MC2IVC,
-            registerDataType("MC 2 Vector Id", "Amps"),
-            registerDataType("MC 2 Vector Iq", "Amps")
+                MC2IVC,
+                registerDataType("MC 2 Vector Id", "Amps"),
+                registerDataType("MC 2 Vector Iq", "Amps")
         );
 
         registerDataMapping(
-            MC2BEM,
-            registerDataType("MC 2 Vector BEMFd", "Volts"),
-            registerDataType("MC 2 Vector BEMFq", "Volts")
+                MC2BEM,
+                registerDataType("MC 2 Vector BEMFd", "Volts"),
+                registerDataType("MC 2 Vector BEMFq", "Volts")
         );
 
         registerDataMapping(
-            MC2RL1,
-            null,
-            null
+                MC2RL1,
+                null,
+                null
         );
 
         registerDataMapping(
-            MC2RL2,
-            null,
-            null
+                MC2RL2,
+                null,
+                null
         );
 
         registerDataMapping(
-            MC2TP1,
-            registerDataType("MC 2 Heatsink Temp", "deg C"),
-            registerDataType("MC 2 Motor Temp", " deg C")
+                MC2TP1,
+                registerDataType("MC 2 Heatsink Temp", "deg C"),
+                registerDataType("MC 2 Motor Temp", " deg C")
         );
 
         registerDataMapping(
-            MC2TP2,
-            RESERVED,
-            registerDataType("MC 2 Processor Temp", "deg C")
+                MC2TP2,
+                RESERVED,
+                registerDataType("MC 2 Processor Temp", "deg C")
         );
 
         registerDataMapping(
-            MC2CUM,
-            registerDataType("MC 2 Bus Amp. Hrs.", "Ah"),
-            registerDataType("MC 2 Odometer", "m")
+                MC2CUM,
+                registerDataType("MC 2 Bus Amp. Hrs.", "Ah"),
+                registerDataType("MC 2 Odometer", "m")
         );
 
         registerDataMapping(
-            MC2SLS,
-            registerDataType("MC 2 Slip Speed", "Hz"),
-            RESERVED
+                MC2SLS,
+                registerDataType("MC 2 Slip Speed", "Hz"),
+                RESERVED
         );
 
         registerDataMapping(
-            DC_DRV,
-            registerDataType("Motor Current Setpoint", "%"),
-            registerDataType("Motor Velocity Setpoint", "m/s")
+                DC_DRV,
+                registerDataType("Motor Current Setpoint", "%"),
+                registerDataType("Motor Velocity Setpoint", "m/s")
         );
 
         registerDataMapping(
-            DC_POW,
-            registerDataType("Bus Current Setpoint", "%"),
-            UNUSED
+                DC_POW,
+                registerDataType("Bus Current Setpoint", "%"),
+                UNUSED
         );
 
         registerDataMapping(
-            BP_VMX,
-            registerDataType("Maximum Voltage", "Volts"),
-            registerDataType("Maximim Cell", "Volts")
+                BP_VMX,
+                registerDataType("Maximum Voltage", "Volts"),
+                registerDataType("Maximim Cell", "Volts")
         );
 
         registerDataMapping(
-            BP_VMN,
-            registerDataType("Minimum Voltage", "Volts"),
-            registerDataType("Minimum Cell", "Volts")
+                BP_VMN,
+                registerDataType("Minimum Voltage", "Volts"),
+                registerDataType("Minimum Cell", "Volts")
         );
 
         registerDataMapping(
-            BP_TMX,
-            registerDataType("Maximum Tempurature", "deg C"),
-            registerDataType("Maximum Tempurature Cell", "deg C")
+                BP_TMX,
+                registerDataType("Maximum Tempurature", "deg C"),
+                registerDataType("Maximum Tempurature Cell", "deg C")
         );
 
         registerDataMapping(
-            BP_ISH,
-            registerDataType("Battery Shunt Current", "Amps"),
-            registerDataType("Battery Voltage", "Volts")
+                BP_ISH,
+                registerDataType("Battery Shunt Current", "Amps"),
+                registerDataType("Battery Voltage", "Volts")
         );
 
         registerDataMapping(
-            AC_MP1,
-            registerDataType("MP 1 Avg. Voltage", "Volts"),
-            registerDataType("MP 1 Avg. Current", "Amps")
+                AC_MP1,
+                registerDataType("MP 1 Avg. Voltage", "Volts"),
+                registerDataType("MP 1 Avg. Current", "Amps")
         );
 
         registerDataMapping(
-            AC_MP2,
-            registerDataType("MP 2 Avg. Voltage", "Volts"),
-            registerDataType("MP 2 Avg. Current", "Amps")
+                AC_MP2,
+                registerDataType("MP 2 Avg. Voltage", "Volts"),
+                registerDataType("MP 2 Avg. Current", "Amps")
         );
 
         registerDataMapping(
-            AC_MP3,
-            registerDataType("MP 3 Avg. Voltage", "Volts"),
-            registerDataType("MP 3 Avg. Current", "Amps")
+                AC_MP3,
+                registerDataType("MP 3 Avg. Voltage", "Volts"),
+                registerDataType("MP 3 Avg. Current", "Amps")
         );
 
         registerDataMapping(
-            AC_ISH,
-            registerDataType("Array Shunt Current", "Amps"),
-            registerDataType("Array Battery Voltage", "Volts")
+                AC_ISH,
+                registerDataType("Array Shunt Current", "Amps"),
+                registerDataType("Array Battery Voltage", "Volts")
         );
 
         registerDataMapping(
-            AC_TMX,
-            registerDataType("Array Max. Temp.", "deg C"),
-            registerDataType("Array Max. Temp. MPPT", "deg C")
+                AC_TMX,
+                registerDataType("Array Max. Temp.", "deg C"),
+                registerDataType("Array Max. Temp. MPPT", "deg C")
         );
 
         registerDataMapping(
-            AC_TV1,
-            registerDataType("AC 1 Temp. 1", "deg C"),
-            registerDataType("AC 1 Temp. 2", "deg C")
+                AC_TV1,
+                registerDataType("AC 1 Temp. 1", "deg C"),
+                registerDataType("AC 1 Temp. 2", "deg C")
         );
 
         registerDataMapping(
-            AC_TV2,
-            registerDataType("AC 2 Temp. 1", "deg C"),
-            registerDataType("AC 2 Temp. 1", "deg C")
+                AC_TV2,
+                registerDataType("AC 2 Temp. 1", "deg C"),
+                registerDataType("AC 2 Temp. 1", "deg C")
         );
 
     }
 
-    protected SerialClient getClient () {
+    protected SerialClient getClient() {
         DataProcessorInterface processor = new GenericDataProcessor();
         processor.addObserver(this);
 
@@ -303,5 +302,9 @@ public class SixteenCarDataSource extends AbstractSerialDataSource implements Da
         listener.addObserver(processor);
 
         return new SerialClient(new ModemConnection(), listener);
+    }
+
+    protected int getNumDataPoints() {
+        return 0;
     }
 }

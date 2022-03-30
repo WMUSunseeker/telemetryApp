@@ -13,14 +13,22 @@ public class GenericDataProcessor extends AbstractDataProcessor {
 
         // This is looking for the characters '\r' followed by '\n'. This means 'carriage return' then a 'new line' char.
         String[] lines = data.split("\\r\\n");
-
-        for (String line : lines)
-            if (!line.isEmpty())
+//        System.out.println("number of lines: " + lines.length);
+        for (String line : lines) {
+//            System.out.println("line: " + line);
+//            System.out.println("line.isEmpty(): " + line.isEmpty());
+            if (!line.isEmpty()){
+//                System.out.println("line: " + line);
                 processValue(line);
+            }
+        }
     }
 
     protected void processValue (String value) {
         String[] data = value.split(",");
+        for (String datum : data) {
+            System.out.println("datum: " + datum);
+        }
 
         if (data.length == 3) {
             try {

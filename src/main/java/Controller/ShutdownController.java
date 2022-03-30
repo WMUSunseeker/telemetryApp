@@ -21,22 +21,21 @@ public class ShutdownController extends Thread {
     }
 
     public void run () {
-//        if (profile.hasChanged()) {
-//            // Ask the user if they want to save the profile
-//        }
 
         DataSourceInterface dataSource = profile.getDataSource();
 
         // Disconnects from serial port and stops the collection of data.
+        // also closes autoSave file if needed.
         if (dataSource instanceof AbstractSerialDataSource) {
-            if (dataSource instanceof TwentyOneCarDataSource){
-                try {
-                    ((TwentyOneCarDataSource) dataSource).getWriter().close();
+            if (profile.getAutoSave()) {
+                try { // try/catch needed because writer.close throws IOException
+                    ((AbstractSerialDataSource) dataSource).getWriter().close(); // closes file for writing.
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-            dataSource.stop();
+
+            dataSource.stop(); // closes serial connection.
         }
     }
 }

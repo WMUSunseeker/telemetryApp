@@ -7,7 +7,6 @@
 
 package Data.Source;
 
-import App.Profile.ProfileInterface;
 import Data.Processor.DataProcessorInterface;
 import Data.Processor.GenericDataProcessor;
 import Data.Processor.Observer.DataProcessorObserverInterface;
@@ -18,9 +17,6 @@ import Serial.Connection.ModemConnection;
 import Serial.Listener.GenericListener;
 import Serial.Listener.ListenerInterface;
 import Serial.SerialClient;
-
-import java.io.FileWriter;
-import java.io.IOException;
 
 public class TwentyOneCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
 
@@ -63,26 +59,17 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
 
     protected ErrorTypeCollection errorTypes;
 
-    protected ProfileInterface profile;
-    protected FileWriter writer;
-    protected int numWrittenOnLine = 0;
-
-//    public TwentyOneCarDataSource(ProfileInterface profile){
-//        Profile
+//    public TwentyOneCarDataSource(){
+//
 //    }
 
     public String getName () {
         return "2021 Sunseeker Solar Car";
     }
 
-    public void setProfile(ProfileInterface profile) {
-        this.profile = profile;
-    }
-    public FileWriter getWriter() {
-        return writer;
-    }
-
     protected void registerDataTypes () {
+        // This needs to be here instead of constructor, because in constructor, we would need to call super first...
+        // and super calls registerDataTypes, which throws an error because errorTypes is null.
         errorTypes = new ErrorTypeCollection();
 
         registerDataMapping(
@@ -259,6 +246,7 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
         return new SerialClient(new ModemConnection(), listener);
     }
 
+    // Adds error type to errorTyes list
     private DataTypeInterface registerErrorType(String name, String unit){
         ErrorType type = new ErrorType(name, unit);
         if (name.equals("MC Errors")){
@@ -269,27 +257,11 @@ public class TwentyOneCarDataSource extends AbstractSerialDataSource implements 
         return type;
     }
 
-    protected void receiveValue(String field, double high, double low) {
-        super.receiveValue(field, high, low);
-        if (mappings.containsKey(field) && profile != null && profile.getAutoSave()) {
-            DataTypeInterface[] types = mappings.get(field);
-            numWrittenOnLine++;
-            try {
-                if (writer == null) {
-                    writer = new FileWriter(profile.getFileName(), true);
-                }
-                writer.write(Double.toString(high) + "," + Double.toString(low) + ",");
-
-                if (numWrittenOnLine % NUM_DATA_POINTS == 0) {
-                    writer.write("\n");
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     public ErrorTypeCollection getErrorTypes() {
         return errorTypes;
+    }
+
+    protected int getNumDataPoints(){
+        return NUM_DATA_POINTS;
     }
 }

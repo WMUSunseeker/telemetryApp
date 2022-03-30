@@ -24,6 +24,9 @@ abstract class AbstractDataProcessor implements DataProcessorInterface {
     }
 
     public void sendValue (String field, byte[] high, byte[] low) {
+        System.out.println("Sending value: " + field);
+        System.out.println("High: " + high);
+        System.out.println("Low: " + low);
         for (DataProcessorObserverInterface observer : observers)
             observer.receiveValue(field, high, low);
     }

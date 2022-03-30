@@ -7,14 +7,13 @@
 
 package Data.Source;
 
-import Data.Processor.*;
+import Data.Processor.DataProcessorInterface;
+import Data.Processor.GenericDataProcessor;
 import Data.Processor.Observer.DataProcessorObserverInterface;
 import Serial.Connection.ModemConnection;
-import Serial.Listener.*;
+import Serial.Listener.GenericListener;
+import Serial.Listener.ListenerInterface;
 import Serial.SerialClient;
-
-import javax.swing.JFrame;
-import java.nio.ByteBuffer;
 
 public class TenCarDataSource extends AbstractSerialDataSource implements DataProcessorObserverInterface {
     /*
@@ -85,5 +84,9 @@ public class TenCarDataSource extends AbstractSerialDataSource implements DataPr
         listener.addObserver(processor);
 
         return new SerialClient(new ModemConnection(), listener);
+    }
+
+    protected int getNumDataPoints() {
+        return 0;
     }
 }

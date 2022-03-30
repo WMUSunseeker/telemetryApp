@@ -13,6 +13,7 @@ package Controller;
 import App.Profile.ProfileInterface;
 import App.Profile.Writer.ProfileWriter;
 import App.Profile.Writer.ProfileWriterInterface;
+import Data.Source.AbstractSerialDataSource;
 import Data.Source.TwentyOneCarDataSource;
 import Data.Type.Collection.DataTypeCollectionInterface;
 import Data.Type.Collection.ErrorTypeCollection;
@@ -140,8 +141,12 @@ public class MainController implements ActionListener, MainMenuObserverInterface
         if(profile.getDataSource() instanceof TwentyOneCarDataSource) {
             TwentyOneCarDataSource dataSource = (TwentyOneCarDataSource) profile.getDataSource();
             errorTypes = dataSource.getErrorTypes();
+        }
+        if (profile.getDataSource() instanceof AbstractSerialDataSource){
+            AbstractSerialDataSource dataSource = (AbstractSerialDataSource) profile.getDataSource();
             dataSource.setProfile(profile);
         }
+
 
         // Draws to screen the data from source, with line graphs
         // This uses classes from Frame and Panel folders.
